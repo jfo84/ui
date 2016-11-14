@@ -54,9 +54,15 @@ export default (inflictor, value, type) => {
     // TODO use abilities if we need the full info immediately
     const ability = abilities[inflictor];
     const item = items[inflictor];
-    let image;
+    let image, numericDisplay;
     let tooltip = strings.tooltip_autoattack_other;
     const ttId = uuid.v4();
+
+    if (value === null) {
+      numericDisplay = <div className={styles.overlay}></div>;
+    } else {
+      numericDisplay = <div className={styles.overlay}>{value}</div>;
+    }
 
     if (ability) {
       image = `${API_HOST}/apps/dota2/images/abilities/${inflictor}_lg.png`;
@@ -78,7 +84,7 @@ export default (inflictor, value, type) => {
             }}
           />
         }
-        {!type && <div className={styles.overlay}>{value}</div>}
+        {!type && numericDisplay}
         {type === 'buff' &&
           <div className={styles.buffOverlay}>
             {value > 0 && value}

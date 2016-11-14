@@ -167,11 +167,17 @@ export const overviewColumns = (match) => {
       const additionalItemArray = [];
       for (let i = 0; i < 6; i += 1) {
         const itemKey = itemIds[row[`item_${i}`]];
+
         const firstPurchase = row.first_purchase_time && row.first_purchase_time[itemKey];
+        const seconds = itemRegistry.includes(itemKey) ? null : formatSeconds(firstPurchase);
+
+        // Record item keys to remove duplicates
+        const itemRegistry = [];
+        itemRegistry.push(itemKey);
 
         if (items[itemKey]) {
           itemArray.push(
-            inflictorWithValue(itemKey, formatSeconds(firstPurchase)),
+            inflictorWithValue(itemKey, seconds),
           );
         }
 
